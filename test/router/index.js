@@ -1,4 +1,4 @@
-const Router = require ("../lib");
+const Router = require ("../../lib/router");
 const assert = require("assert");
 
 describe("Router", function () {
@@ -18,7 +18,7 @@ describe("Router", function () {
                 }
             ]
         )
-    })
+    });
 
     it("can store multiple GET routes", () => {
         var router = new Router();
@@ -38,5 +38,20 @@ describe("Router", function () {
                 }
             ]
         )
-    })
+    });
+
+    it("Get route with one parameter", () => {
+        var router = new Router();
+        var callback = function () {};
+        router.route("GET", "/:id", callback);
+        
+        assert.deepEqual(router.routes["GET"], 
+            [
+                { 
+                    regexp: new RegExp("^/:id$", "i"),
+                    callback: callback
+                }
+            ]
+        )
+    });
 })
