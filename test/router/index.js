@@ -10,7 +10,7 @@ describe("Router", function () {
         var callback = function () {};
         router.route("GET", "/", callback);
         
-        assert.deepEqual(router.routes["GET"], 
+        assert.deepEqual(router.routes["get"], 
             [
                 { 
                     //regexp: new RegExp("^/$", "i"),
@@ -26,7 +26,7 @@ describe("Router", function () {
         var callback = function (id) {};
         router.route("GET", "/:id", callback);
         
-        assert.deepEqual(router.routes["GET"], 
+        assert.deepEqual(router.routes["get"], 
             [
                 { 
                     //regexp: new RegExp("^/$", "i"),
@@ -42,7 +42,7 @@ describe("Router", function () {
         var callback = function (from, to) {};
         router.route("GET", "message/:from/:to", callback);
         
-        assert.deepEqual(router.routes["GET"], 
+        assert.deepEqual(router.routes["get"], 
             [
                 { 
                     path: "message/:from/:to",
