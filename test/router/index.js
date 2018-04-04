@@ -13,42 +13,39 @@ describe("Router", function () {
         assert.deepEqual(router.routes["GET"], 
             [
                 { 
-                    regexp: new RegExp("^/$", "i"),
+                    //regexp: new RegExp("^/$", "i"),
+                    path: "/",
                     callback: callback
                 }
             ]
         )
     });
 
-    it("can store multiple GET routes", () => {
+    it("can store a GET route with dynamic parameter", () => {
         var router = new Router();
-        var callback = function () {};
-        router.route("GET", "/", callback);
-        router.route("GET", "/home", callback);
-        
-        assert.deepEqual(router.routes["GET"], 
-            [
-                { 
-                    regexp: new RegExp("^/$", "i"),
-                    callback: callback
-                },
-                { 
-                    regexp: new RegExp("^/home$", "i"),
-                    callback: callback
-                }
-            ]
-        )
-    });
-
-    it("Get route with one parameter", () => {
-        var router = new Router();
-        var callback = function () {};
+        var callback = function (id) {};
         router.route("GET", "/:id", callback);
         
         assert.deepEqual(router.routes["GET"], 
             [
                 { 
-                    regexp: new RegExp("^/:id$", "i"),
+                    //regexp: new RegExp("^/$", "i"),
+                    path: "/:id",
+                    callback: callback
+                }
+            ]
+        )
+    });
+
+    it("can store a GET route with multiple dynamic parameter", () => {
+        var router = new Router();
+        var callback = function (from, to) {};
+        router.route("GET", "message/:from/:to", callback);
+        
+        assert.deepEqual(router.routes["GET"], 
+            [
+                { 
+                    path: "message/:from/:to",
                     callback: callback
                 }
             ]
