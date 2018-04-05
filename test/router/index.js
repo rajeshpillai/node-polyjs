@@ -1,5 +1,17 @@
 const Router = require ("../../lib/router");
 const assert = require("assert");
+const sinon = require("sinon");
+
+function once(fn) {
+    var returnValue, called = false;
+    return function () {
+        if (!called) {
+            called = true;
+            returnValue = fn.apply(this, arguments);
+        }
+        return returnValue;
+    };
+}
 
 describe("Router", function () {
     beforeEach(function () {
@@ -82,12 +94,29 @@ describe("Router", function () {
         )
     });
 
-    it("can navigate to GET URL without param", () => {
-        var router = new Router();
-        var callback = function () {};
+    it("invokes callback when navigating to GET url without params", () => {
+        // Arrange
+        let router = new Router();
+        let called = false;
+        let callback = () => { called = true };;
         router.get("users", callback);
 
-        
-        
+        // Act
+        router.navigate("users");
+        // Assert
+        assert.equal(called, true, "Should invoke the GET call back");
+    });
+
+    it("invokes callback when navigating to GET url with params", () => {
+        // Arrange
+        let router = new Router();
+        let called = null;
+        let callback = (id) => { called = id; console.log("id: ", id); };
+        router.get("users/:id", callback);
+
+        // Act
+        router.navigate("users/1");
+        // Assert
+        assert.equal(called, 1, "Should invoke the GET call back  with params");
     });
 })
