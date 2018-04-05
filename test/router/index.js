@@ -107,7 +107,7 @@ describe("Router", function () {
         assert.equal(called, true, "Should invoke the GET call back");
     });
 
-    it("invokes callback when navigating to GET url with params", () => {
+    it("invokes callback when navigating to GET url with 1 params", () => {
         // Arrange
         let router = new Router();
         let called = null;
@@ -118,5 +118,28 @@ describe("Router", function () {
         router.navigate("users/1");
         // Assert
         assert.equal(called, 1, "Should invoke the GET call back  with params");
+    });
+
+    it("invokes callback when navigating to GET url with 2 params", () => {
+        // Arrange
+        let router = new Router();
+        let expected = {
+            id: null,
+            lang: null
+        };
+
+        let callback = (id, lang) => { 
+            expected = {
+                id: id,
+                lang: lang
+            }; 
+            console.log("id->lang", id, lang);
+        };
+        router.get("users/:id/:lang", callback);
+
+        // Act
+        router.navigate("users/1/en");
+        // Assert
+        assert.deepEqual({id: 1, lang: "en"}, expected);
     });
 })
