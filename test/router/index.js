@@ -81,4 +81,13 @@ describe("Router", function () {
             ]
         )
     });
+
+    it("can navigate to GET URL without param", () => {
+        var router = new Router();
+        var callback = function () {};
+        router.get("users", callback);
+
+        
+        
+    });
 })
