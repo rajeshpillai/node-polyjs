@@ -51,4 +51,34 @@ describe("Router", function () {
             ]
         )
     });
+
+    it("can attach GET method to the router instance", () => {
+        var router = new Router();
+        var callback = function (from, to) {};
+        router.get("message/:from/:to", callback);
+        
+        assert.deepEqual(router.routes["get"], 
+            [
+                { 
+                    path: "message/:from/:to",
+                    callback: callback
+                }
+            ]
+        )
+    });
+
+    it("can attach POST method to the router instance", () => {
+        var router = new Router();
+        var callback = function () {};
+        router.post("save_user", callback);
+        
+        assert.deepEqual(router.routes["post"], 
+            [
+                { 
+                    path: "save_user",
+                    callback: callback
+                }
+            ]
+        )
+    });
 })
