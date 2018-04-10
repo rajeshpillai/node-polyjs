@@ -53,5 +53,8 @@ app.get('/send/:message/:to', (req, res) => {
 
 //console.log(app.router.routes);
 
-app.listen(3000);
+app.listen(3000)
+    .then(()=> {
+        console.log("Server running huhu!!!");
+    });
 
