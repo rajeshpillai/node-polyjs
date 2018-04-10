@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/users', (req, res) => {
-    res.json([
+    res.status(200).json([
         {"user_id": "1", "hobbies":["drawing","coding"]},
         {"user_id": "2", "hobbies":["cooking","drawing"]},
     ]);
