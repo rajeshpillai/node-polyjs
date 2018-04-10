@@ -6,7 +6,7 @@ app.get('/', (req, res) => {
     console.log(`Fetching...`);
 });
 
-app.get('/greeting', (req, res) => {
+app.get('/greeting/:message', (req, res) => {
     console.log(`Welcome...${req.url}`);
 });
 
