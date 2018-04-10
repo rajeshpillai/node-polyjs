@@ -10,6 +10,13 @@ app.get('/', (req, res) => {
     res.render('index', {title: 'Our own MVC Framework'});
 });
 
+app.get('/users', (req, res) => {
+    res.json([
+        {"user_id": "1", "hobbies":["drawing","coding"]},
+        {"user_id": "2", "hobbies":["cooking","drawing"]},
+    ]);
+});
+
 app.get('/aboutus', (req, res) => {
     console.log(`Fetching...${req.url}`);
     res.render('aboutus', {text: 'An agile startup'});
