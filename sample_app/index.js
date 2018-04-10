@@ -42,11 +42,11 @@ app.get('/aboutus', (req, res) => {
 });
 
 app.get('/greeting/:message', (req, res) => {
-    console.log(`Welcome...${req.url} -> ${req.message}`);
+    res.send(`Welcome...${req.params.url} -> ${req.params.message} ->${req.qs}`);
 });
 
 app.get('/send/:message/:to', (req, res) => {
-    console.log(`Welcome...${req.url} -> ${req.message} -> -> ${req.bye}`);
+    res.send(`Welcome...${req.url} -> ${req.params.message} -> -> ${req.params.bye} ->${req.qs}`);
 });
 
 
