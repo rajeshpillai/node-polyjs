@@ -102,7 +102,7 @@ describe("Router", function () {
         router.get("users", callback);
 
         // Act
-        router.navigate("users");
+        router.match("users");
         // Assert
         assert.equal(called, true, "Should invoke the GET call back");
     });
@@ -115,7 +115,7 @@ describe("Router", function () {
         router.get("users/:id", callback);
 
         // Act
-        router.navigate("users/1");
+        router.match("users/1");
         // Assert
         assert.equal(called, 1, "Should invoke the GET call back  with params");
     });
@@ -138,7 +138,7 @@ describe("Router", function () {
         router.get("users/:id/:lang", callback);
 
         // Act
-        router.navigate("users/1/en");
+        router.match("users/1/en");
         // Assert
         assert.deepEqual({id: 1, lang: "en"}, expected);
     });
