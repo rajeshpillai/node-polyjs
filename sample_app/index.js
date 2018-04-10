@@ -1,9 +1,15 @@
 let rocket = require('../lib/rocket');
+let logger = require("morgan");
+let serveStatic = require('serve-static');
 
 let app = rocket();
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+
+
+app.use(logger());
+app.use(serveStatic(__dirname + '/public'));
 
 app.get('/', (req, res) => {
     console.log(`Fetching...${req.url}`);
