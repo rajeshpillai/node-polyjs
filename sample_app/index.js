@@ -8,7 +8,20 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 
+function one(req, res, next) {
+    console.log("Middleware 1");
+    next();
+}
+
+function two(req, res, next) {
+    console.log("Middleware 2");
+    next();
+}
+
 app.use(logger());
+
+app.use(one).use(two);
+
 app.use(serveStatic(__dirname + '/public'));
 
 app.get('/', (req, res) => {
