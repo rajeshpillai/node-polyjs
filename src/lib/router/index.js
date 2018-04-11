@@ -107,7 +107,7 @@ class Router {
 
             if (found) {
                 match = r;
-                //break;
+                break;
             }
         }
 
