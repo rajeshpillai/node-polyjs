@@ -55,6 +55,13 @@ app.get('/users/show/:id', (req, res) => {
     res.status(200).json(user);
 });
 
+app.get('/:id/users/show/', (req, res) => {
+    let id = req.params.id;
+    console.log(`id/User/Show with id->${id}`);
+    let user = users.find(u => u.user_id == id);
+    res.status(200).json(user);
+});
+
 app.get('/users/show/:id/edit', (req, res) => {
     let id = req.params.id;
     console.log(`User/Show/Edit with id->${id}`);
