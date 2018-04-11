@@ -21,8 +21,9 @@ Response.prototype.send = function(status, body) {
     status = this.statusCode || 200;
   }
 
+  let contentLength = body ? body.length : 0;
   this.writeHead(status, {
-    'Content-Length': body.length,
+    'Content-Length': contentLength,
     'Content-Type': this.contentType
   })
   this.end(body)

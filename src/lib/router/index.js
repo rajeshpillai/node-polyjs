@@ -15,8 +15,17 @@ class Router {
 
     route(method, url, callback) {
         let routes = this.routes[method.toLowerCase()];
+       
+        let patternToken = url.split("/");
+        let combinedPatternSearchTerms = patternToken.reduce((arr,token, index) => {
+            if (!token.startsWith(":")) {
+                return arr.concat(patternToken[index]);
+            } else return arr;
+        },[]).join('');
+
         routes.push({
             path: url,
+            key: combinedPatternSearchTerms,
             callback: callback
         })
     }
@@ -57,56 +66,54 @@ class Router {
         let urlPaths = null;   // Store URL as token
         let patternToken = null;  // Store route pattern as token
 
-        //let urltoken = url.split("?"); // remove querystring from url
-        //url = urltoken[0];
-        //console.log("URL without QS: ", url);
-
         let parsedUrl = url.parse(urlpath, true); // parse query string
 
         urlpath = parsedUrl.pathname;
 
         //console.log("router->handle", parsedUrl.query, parsedUrl.pathname);
 
-        let match = methods.filter((r) => {
-            patternToken = r.path.split("/");  // Convert the route path to token array
-            urlPaths = urlpath.split("/");  // Convert the url to token array
+        //console.log("methods: ", methods);
+        urlPaths = urlpath.split("/");  // Convert the url to token array
 
-            // combine 'terms' and compare
-            let combinedPatternSearchTerms = patternToken.reduce((arr,token, index) => {
-                //console.log(`Found ${token} at index ${index}`);
-                if (!token.startsWith(":")) {
-                    //console.log(`About to return ${patternToken[index]}`)
-                    return arr.concat(patternToken[index]);
-                } else return arr;
-            },[]).join();
+        // Match token - 3 steps
+        // 1.  Extract pattern from routes as string excluding dynamic params
+        // 2.  Extract url as string from url excluding dynamic params
+        // 3.  Compare the two
 
-             // combine 'terms' from pattern with url
-             let combinedUrlPatterns = patternToken.reduce((arr,token, index) => {
-                //console.log(`Found ${token} at index ${index}`);
-                if (!token.startsWith(":")) {
-                    //console.log(`About to return ${urlPaths[index]}`)
-                    return arr.concat(urlPaths[index]);  // get it from url
-                } else return arr;
-            },[]).join();
 
-            console.log(`combinedPatterns: ${combinedPatternSearchTerms} <=> ${combinedUrlPatterns}`);
+        let flatPath = {};
 
-            // If the base url matches, return the token as a match.  Since filter returns an array,
-            // we just grab the first element at index 0
-            return (combinedPatternSearchTerms  === combinedUrlPatterns);
-        })[0];
+        let match = null;
+        let matchCount= {};
+        //methods.forEach((r) => {
+        for(let i in methods) {
+            let r = methods[i];
+            patternToken =r.path.split("/");  // Convert the route path to token array
+
+            console.log("key: ", urlpath, r.path);
+            // combine 'terms' from pattern with url
+            var combinedUrlPatterns;
+            var found = true;
+            for(let j = 0; j < urlPaths.length; j++) {
+                for(let k = 0; k < patternToken.length; k++) {
+                    let token = patternToken[k];
+                    if (!token.startsWith(":")) {
+                        if (token !== urlPaths[k]) {
+                            found = false;
+                        }
+                    } 
+                };
+            }
+
+            if (found) {
+                match = r;
+                //break;
+            }
+        }
 
         if (!match) return;
-        //console.log("FOUND: ", match);
-        //console.log("TOKENS: ", urlPaths, patternToken);
 
-        // Make parameter array
-        let paramsArray = patternToken.reduce((arr,token, index) => {
-            //console.log(`Found ${token} at index ${index}`);
-            if (token.startsWith(":")) {
-                return arr.concat(urlPaths[index]);
-            } else return arr;
-        },[]);
+        console.log('match: ', match);
 
         let paramsMap = patternToken.reduce((arr,token, index) => {
             if (token.trim().length === 0) return arr;
@@ -116,6 +123,8 @@ class Router {
                 return arr;
             } else return arr;
         },{});
+
+        console.log("params: ", paramsMap);
 
         //let qs = urltoken[1].split("&");
         return {
