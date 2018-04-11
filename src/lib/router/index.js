@@ -73,7 +73,7 @@ class Router {
         //console.log("router->handle", parsedUrl.query, parsedUrl.pathname);
 
         //console.log("methods: ", methods);
-        urlPaths = urlpath.split("/");  // Convert the url to token array
+        urlPaths = urlpath.split("/").filter(String);  // Convert the url to token array
 
         // Match token - 3 steps
         // 1.  Extract pattern from routes as string excluding dynamic params
@@ -85,15 +85,19 @@ class Router {
 
         let match = null;
         let matchCount= {};
-        //methods.forEach((r) => {
+
+        console.log('urlToken: ', urlPaths);
         for(let i in methods) {
             let r = methods[i];
-            patternToken =r.path.split("/");  // Convert the route path to token array
-
-            console.log("key: ", urlpath, r.path);
+            patternToken =r.path.split("/").filter(String);  // Convert the route path to token array
+            console.log('patternToken : ', patternToken);
+            
             // combine 'terms' from pattern with url
-            var combinedUrlPatterns;
             var found = true;
+            if (urlPaths.length !== patternToken.length) {
+                found = false;
+                continue;
+            }
             for(let j = 0; j < urlPaths.length; j++) {
                 for(let k = 0; k < patternToken.length; k++) {
                     let token = patternToken[k];

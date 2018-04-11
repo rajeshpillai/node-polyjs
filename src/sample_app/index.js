@@ -40,7 +40,6 @@ app.get('/users/show/:id/modal', (req, res) => {
     let id = req.params.id;
     console.log(`User/Show/Modal with id->${id}`);
     let user = users.find(u => u.user_id == id);
-
     res.status(200).json(user);
 });
 
@@ -53,7 +52,6 @@ app.get('/users/show/:id', (req, res) => {
     let id = req.params.id;
     console.log(`User/Show with id->${id}`);
     let user = users.find(u => u.user_id == id);
-
     res.status(200).json(user);
 });
 
