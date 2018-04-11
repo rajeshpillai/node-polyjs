@@ -34,6 +34,11 @@ Response.prototype.status = function status(code) {
   return this;
 };
 
+Response.prototype.notFound = function notFound(code) {
+  this.statusCode = 404;
+  return this;
+};
+
 Response.prototype.json = function( body) {
   this.contentType = "application/json";
   body = JSON.stringify(body);

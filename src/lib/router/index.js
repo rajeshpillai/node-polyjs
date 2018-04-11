@@ -37,7 +37,7 @@ class Router {
         
         let result = this.match(req.url, req.method);
 
-        if (!result) { return res.end();}
+        if (!result) { return res.notFound().end('Not found!');}
         //console.log("PARAMS: ", result.params);
 
         req = this._setUpRequestParams(req, result.params, result.qs);
