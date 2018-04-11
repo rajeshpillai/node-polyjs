@@ -92,8 +92,9 @@ class Router {
             patternToken =r.path.split("/").filter(String);  // Convert the route path to token array
             console.log('patternToken : ', patternToken);
             
-            // combine 'terms' from pattern with url
             var found = true;
+
+            //  If the url token and pattern token not same lenght,then false.
             if (urlPaths.length !== patternToken.length) {
                 found = false;
                 continue;
