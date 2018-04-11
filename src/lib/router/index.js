@@ -61,7 +61,6 @@ class Router {
 
     match(urlpath, method="get") {
         let methods = this.routes[method.toLowerCase()]; 
-        let oldUrl = urlpath;
 
         let urlPaths = null;   // Store URL as token
         let patternToken = null;  // Store route pattern as token
@@ -70,23 +69,13 @@ class Router {
 
         urlpath = parsedUrl.pathname;
 
-        //console.log("router->handle", parsedUrl.query, parsedUrl.pathname);
-
-        //console.log("methods: ", methods);
         urlPaths = urlpath.split("/").filter(String);  // Convert the url to token array
-
-        // Match token - 3 steps
-        // 1.  Extract pattern from routes as string excluding dynamic params
-        // 2.  Extract url as string from url excluding dynamic params
-        // 3.  Compare the two
 
 
         let flatPath = {};
 
         let match = null;
-        let matchCount= {};
 
-        console.log('urlToken: ', urlPaths);
         for(let i in methods) {
             let r = methods[i];
             patternToken =r.path.split("/").filter(String);  // Convert the route path to token array
