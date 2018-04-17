@@ -29,12 +29,15 @@ app.use(one).use(two);
 
 app.use(serveStatic(__dirname + '/public'));
 
-/*
+
 app.get('/', (req, res) => {
     console.log(`Fetching...${req.url}`);
     res.render('index', {title: 'Our own MVC Framework'});
 });
-*/
+
+app.get('/users/register', (req, res) => {
+    res.render('users/register');
+});
 
 app.get('/users/show/:id/modal', (req, res) => {
     let id = req.params.id;

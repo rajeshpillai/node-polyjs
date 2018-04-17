@@ -48,7 +48,7 @@ Response.prototype.json = function( body) {
 Response.prototype.render = function(file, locals) {
   var self = this
 
-  this.app.render(file, locals, function(html) {
+  this.app.render(file, locals={}, function(html) {
     self.send(html)
   })
 }
