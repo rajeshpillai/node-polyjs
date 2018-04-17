@@ -1,6 +1,7 @@
 let rocket = require('../lib/rocket');
 let logger = require("morgan");
 let serveStatic = require('serve-static');
+let Cookies = require('cookies');
 
 let app = rocket();
 
@@ -41,6 +42,9 @@ app.get('/users/register', (req, res) => {
 
 app.post('/users/register', (req, res) => {
     console.log('POST /users/register: ', req.body);
+
+    let cookies = new Cookies(req, res);
+    cookies.set('rocket_session', req.body.username, {httpOnly: false});
     
     res.redirect("/");
     //res.end();

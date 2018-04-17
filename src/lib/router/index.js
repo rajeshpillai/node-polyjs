@@ -49,6 +49,7 @@ class Router {
         }
         this._setUpPost(req, res, function postComplete(req,res) {
             result.match.callback(req, res);
+            //res.writeHead(302);
             return;
         });
     }
@@ -67,7 +68,7 @@ class Router {
                 console.log('POST: ', body);
                 req.body = body;
                 //res.writeHead(302, {"Location": req.url});  // Status: 302->found
-                res.writeHead(302);
+               
                 onComplete(req,res);
             })
         }
