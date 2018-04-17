@@ -1,4 +1,5 @@
 const url = require('url');
+const qs = require("querystring");
 const { METHODS } = require("http");
 
 class Router {
@@ -33,7 +34,7 @@ class Router {
     handle(req, res) {
         let parsedUrl = url.parse(req.url, true); // parse query string
 
-        console.log("router->handle", parsedUrl.query, parsedUrl.pathname);
+        console.log("router->handle", parsedUrl.query, parsedUrl.pathname, req.method);
         
         let result = this.match(req.url, req.method);
 
@@ -41,22 +42,47 @@ class Router {
         //console.log("PARAMS: ", result.params);
 
         req = this._setUpRequestParams(req, result.params, result.qs);
-        result.match.callback(req, res);
+        
+        if (req.method.toLowerCase() === 'get') {
+            result.match.callback(req, res);
+            return;
+        }
+        this._setUpPost(req, res, function postComplete(req,res) {
+            result.match.callback(req, res);
+            return;
+        });
     }
 
-    _setUpRequestParams(req, params,qs) {
+    _setUpPost(req, res, onComplete) {
+        // POST method
+        if (req.method == "POST") {
+            let postedData = "";
+            req.on("data", function (chunk) {
+                console.log(chunk);
+                postedData += chunk;
+            });
+            req.on("end", function () {
+                let body = qs.parse(postedData);
+
+                console.log('POST: ', body);
+                req.body = body;
+                //res.writeHead(302, {"Location": req.url});  // Status: 302->found
+                res.writeHead(302);
+                onComplete(req,res);
+            })
+        }
+    }
+    _setUpRequestParams(req, params,query) {
         req.params= {};
         req.qs = {};
         for(let p in params) {
             req.params[p] = params[p];
         }
 
-        for(let p in qs) {
-            req.qs[p] = qs[p];
+        for(let p in query) {
+            req.qs[p] = query[p];
         }
-
         return req;
-
     }
 
     match(urlpath, method="get") {

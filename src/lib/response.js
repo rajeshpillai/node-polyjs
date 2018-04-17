@@ -45,6 +45,14 @@ Response.prototype.json = function( body) {
   this.send(body);
 }
 
+Response.prototype.redirect = function( url ) {
+  this.writeHead(302, {
+    'Location': url
+    //add other headers here...
+  });
+  this.end();
+}
+
 Response.prototype.render = function(file, locals) {
   var self = this
 

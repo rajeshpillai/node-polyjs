@@ -39,6 +39,15 @@ app.get('/users/register', (req, res) => {
     res.render('users/register');
 });
 
+app.post('/users/register', (req, res) => {
+    console.log('POST /users/register: ', req.body);
+    
+    res.redirect("/");
+    //res.end();
+
+});
+
+
 app.get('/users/show/:id/modal', (req, res) => {
     let id = req.params.id;
     console.log(`User/Show/Modal with id->${id}`);
