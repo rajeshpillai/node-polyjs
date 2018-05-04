@@ -15,10 +15,6 @@
     "sinon": "^4.5.0"
   },
   "dependencies": {
-    "consolidate": "^0.15.1",
-    "cookies": "^0.7.1",
-    "ejs": "^2.5.8",
-    "morgan": "^1.9.0",
-    "serve-static": "^1.13.2"
+   
   }
 }
