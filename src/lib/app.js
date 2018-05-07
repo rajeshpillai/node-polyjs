@@ -58,15 +58,12 @@ class App {
     }
 
     render(file, locals, callback) {
-        console.log("app->rendering...", file);
         let engineName = this.settings['view engine'],
                 engine = cons[engineName],
                 path = this.settings['views'] + '/' + file  + '.' + engineName;
 
-        console.log(`Rendering ${path}`)
         engine(path, locals, function (err, html) {
             if (err) throw err;
-            console.log("html-> ", html);
             callback(html);
         })
     }

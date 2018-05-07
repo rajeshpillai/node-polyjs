@@ -53,10 +53,10 @@ Response.prototype.redirect = function( url ) {
   this.end();
 }
 
-Response.prototype.render = function(file, locals) {
+Response.prototype.render = function(file, locals={}) {
   var self = this
 
-  this.app.render(file, locals={}, function(html) {
+  this.app.render(file, locals, function(html) {
     self.send(html)
   })
 }

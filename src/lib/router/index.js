@@ -43,36 +43,35 @@ class Router {
 
         req = this._setUpRequestParams(req, result.params, result.qs);
         
-        if (req.method.toLowerCase() === 'get') {
+        if (req.method.toLowerCase() !== 'post') {
+            console.log('Got the handler: ', req.method);
             result.match.callback(req, res);
             return;
         }
-        this._setUpPost(req, res, function postComplete(req,res) {
-            result.match.callback(req, res);
-            //res.writeHead(302);
-            return;
-        });
+
+        if (req.method.toLowerCase() === 'post') {
+            this._setUpPost(req, res, function postComplete(req,res) {
+                result.match.callback(req, res);
+                return;
+            });
+        }
     }
 
     _setUpPost(req, res, onComplete) {
         // POST method
-        if (req.method == "POST") {
-            let postedData = "";
-            req.on("data", function (chunk) {
-                console.log(chunk);
-                postedData += chunk;
-            });
-            req.on("end", function () {
-                let body = qs.parse(postedData);
-
-                console.log('POST: ', body);
-                req.body = body;
-                //res.writeHead(302, {"Location": req.url});  // Status: 302->found
-               
-                onComplete(req,res);
-            })
-        }
+        let postedData = "";
+        req.on("data", function (chunk) {
+            console.log(chunk);
+            postedData += chunk;
+        });
+        req.on("end", function () {
+            let body = qs.parse(postedData);
+            req.body = body;
+            //res.writeHead(302, {"Location": req.url});  // Status: 302->found
+            onComplete(req,res);
+        })
     }
+
     _setUpRequestParams(req, params,query) {
         req.params= {};
         req.qs = {};
